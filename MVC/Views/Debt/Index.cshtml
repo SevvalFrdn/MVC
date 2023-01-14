@@ -1,0 +1,95 @@
+﻿@model IEnumerable<MVC.Models.mvcDebtModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPageAdmin.cshtml";
+}
+<div class="flex flex-col">
+    <!-- Card Sextion Starts Here -->
+    <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+
+        <!-- card -->
+
+        <div class="rounded overflow-hidden shadow bg-white mx-2 w-full">
+            <div class="px-6 py-2 border-b border-light-grey">
+                <div class="font-bold text-xl">Debt List</div>
+            </div>
+
+
+
+
+        </div>
+        <!-- /card -->
+
+    </div>
+    <!-- /Cards Section Ends Here -->
+</div>
+
+<p>
+    <a href="@Url.Action("Add","Debt")" class="btn btn-secondary"><i class="fa fa-plus-square"></i>Add Customer</a>
+</p>
+<table class="table text-grey-darkest">
+    <thead class="bg-grey-dark text-white text-normal">
+
+        <tr>
+            <th scope="col">
+
+                @Html.DisplayNameFor(model => model.DebtPrice)
+            </th>
+            <th scope="col">
+
+                @Html.DisplayNameFor(model => model.DebtMaturity)
+            </th>
+            <th scope="col">
+
+                @Html.DisplayNameFor(model => model.DebtStatus)
+            </th>
+            <th scope="col">
+
+                @Html.DisplayNameFor(model => model.CustomerId)
+            </th>
+            <th scope="col">
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tbody>
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DebtPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DebtMaturity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DebtStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerId)
+                </td>
+                <td>
+                    <a href="@Url.Action("Add", "Debt", new {id=item.DebtId})" class="btn btn-default"><i class="fa fa-pencil-square"></i>Edit</a>
+                    <a onclick="Delete(@item.DebtId)" class="btn btn-default"><i class="fa fa-trash"></i>Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    }
+
+</table>
+@section scripts{
+    <script>
+            $(function () {
+                var successMessage = '@TempData["SuccessMessage"]';
+                if (successMessage != '')
+                    alertify.success(successMessage);
+
+            });
+            function Delete(id) {
+                alertify.confirm('Delete', 'Do you want to delete the register ?', function () {
+                    window.location.href = '@Url.Action("Delete","Debt")/' + id;
+                }, null);
+            }
+    </script>
+}
